@@ -59,6 +59,7 @@
 <script src="{{ url('/') }}/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
 @stack('js')
+@yield('additionalFooter')
 
 
 </body>

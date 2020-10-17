@@ -22,6 +22,18 @@ class movieController extends Controller
 
         // $books = App\Models\Book::with('author:id,name')->get();
 
+        $movie = movie::with('actor')->get();
+        return $movie->toJson(JSON_PRETTY_PRINT);
+        return $movie->toJson();
+
+        $movie = movie::with('actor')->get();
+        return $movie->toArray();
+        
+        $movie = movie::with('actor')->find(1);
+        return $movie->attributesToArray();
+
+
+
         $movies = movie::all();
         $movies = movie::with('actor:id,name')->get();
         $movies = movie::where('actor_id', 1)
@@ -37,7 +49,11 @@ class movieController extends Controller
         // return ;
         */
         // return view('test');
-
+        $actor = \App\models\actor::find($request->actor_id);
+        $movie = \App\models\movie::find($request->movie_id);
+        $movie->actor->attach($actor);
+        
+        $movie->actor->attach('valueOfFirstColumn',['keyOfSecondColumn','valueOfSecondColumn']);
         $movies = movie::get();
         $movies = movie::with('actor')->get();
         foreach ($movies as $movie) {
@@ -62,6 +78,8 @@ class movieController extends Controller
         });
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -70,7 +88,9 @@ class movieController extends Controller
     public function create()
     {
         //
-        return view('movie.create');
+        $cars = array("Alabama"=>"Alabama" , "Alaska"=>"Alaska", "California"=>"California", "Delaware"=>"Delaware", "Tennessee"=>"Tennessee", "Texas"=>"Texas", "Washington"=>"Washington");
+
+        return view('movie.create', compact('cars'));
     }
 
     /**
@@ -82,6 +102,37 @@ class movieController extends Controller
     public function store(Request $request)
     {
         //
+        print_r($request->input('sports'));
+        foreach ($request->input('sports') as $tag){
+            echo $tag;
+        }
+        echo $request->input('title');
+        echo $request->input('desc');
+        echo $request->input('date');
+        echo $request->input('rate');
+        return ;
+
+        gettype($request);
+        echo '<br/>';
+        echo $request->getMethod();
+        echo '<br/>';
+        echo gettype($request);
+        echo '<br/>';
+
+        $stack = array();
+
+
+        foreach ($request as $tag){
+            array_push($stack, $tag);
+        }
+        return $stack;
+        
+        foreach ($request->input('sports') as $tag){
+            echo $tag;
+            echo '<br/>----';
+        }
+
+
         $data = $this->validate($request, [
             'title' => 'required',
             'desc' => 'required',
@@ -103,9 +154,12 @@ class movieController extends Controller
     {
         //
         $movie = movie::with('actor')->find($id);
+        // return $movie->attributesToArray();
         // $movie = movie::find($id)->with('actor');
         return view('movie.show', compact('movie'));
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.

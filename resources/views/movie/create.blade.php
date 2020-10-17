@@ -1,6 +1,14 @@
+@section('additionalInfo')
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{{ url('/') }}/AdminLTE/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="{{ url('/') }}/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+	<script src="{{ url('/') }}/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+@endsection
 @include('admin.layout.header')
 @include('admin.layout.nav')
 @include('admin.layout.menu')
+
+
 
 
 @section('buttonDashbord')
@@ -16,8 +24,19 @@
 @endforeach
 </div>
 @endif
+
+
 {{ Form::open(array('url' => '/movie', 'method' => 'POST')) }}
-@csrf
+    <div class="col-sm-6">
+    </div>
+    <div class="col-sm-6">
+	    <div class="form-group">
+	      	{{ Form::label('Technician', 'Technician')  }}
+			{{ Form::select('sports[]', $cars,null,['multiple'=>'multiple','id'=>'sports','class' => 'select2 select2-hidden-accessible','data-placeholder' => 'Select a State','style' => 'width: 100%;', 'data-select2-id' => '7', 'aria-hidden' => 'true'])  }}
+	    </div>
+	</div>
+
+	
 	<div class="col-sm-6">
 		<div class="form-group">
 		{{ Form::label('title', 'Title')  }}
@@ -54,6 +73,7 @@
 		</div>
 	</div>
 	
+	
 {{ Form::close() }}		
 </div>
 </div>
@@ -61,4 +81,16 @@
 @endsection
 
 @include('admin.layout.wrapper')
+
+
+@section('additionalFooter')
+<script src="{{ url('/') }}/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+<script>
+$('.select2').select2({
+      theme: 'bootstrap4'
+    })
+$('.select3').select2()
+</script>
+
+@endsection
 @include('admin.layout.footer')

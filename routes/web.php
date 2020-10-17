@@ -121,6 +121,16 @@ Route::get('/view', function () {
 });
 
 
+Route::get('/go', function () {
+    $posts = \App\Models\post::with(['user', 'tags'])->get();
+    return view('go', compact('posts'));
+});
+
+Route::get('/go1', function () {
+    $tags = \App\Models\tag::with('posts')->get();
+    return view('go1', compact('tags'));
+    // return compact('tags');
+});
 
 /*
 Route::get('user-data', function() {
